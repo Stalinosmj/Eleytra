@@ -12,7 +12,7 @@ This application is designed to help users find electric vehicle charging statio
 - **User-friendly Interface**: The app has an intuitive and easy-to-use interface.
 
 ## Installation
-Installation of the app will be provide once its published.
+Installation of the app will be provided once its published.
 
 
 ## Screenshots
