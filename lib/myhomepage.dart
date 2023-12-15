@@ -48,23 +48,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Transform.scale(
-                          scale: 0.8, // Adjust this value to change the size of the image
-                          child: Container(
-                            width: 252,
-                            height: 245,
-                            padding: const EdgeInsets.fromLTRB(100,100, 0,100),
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('assets/ev_car.png'),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
                     ],
                   ),
                 ),
