@@ -1,19 +1,16 @@
-# Eleytra
+# eleytra
 
-A Flutter project for Electric-vehicle charging station finder.
+A new Flutter project.
 
-## Description
-This application is designed to help users find electric vehicle charging stations in their vicinity. It provides real-time information about the availability of charging stations.
+## Getting Started
 
-## Features
-- **Real-time Information**: The app provides real-time locations of charging stations.
-- **Filter Options**: Users can filter charging stations based on their preferences.
-- **Navigation**: The app provides navigation to the selected charging station.
-- **User-friendly Interface**: The app has an intuitive and easy-to-use interface.
+This project is a starting point for a Flutter application.
 
-## Installation
-Installation of the app will be provided once its published.
+A few resources to get you started if this is your first Flutter project:
 
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-## Screenshots
-
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
