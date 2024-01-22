@@ -274,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: MediaQuery.sizeOf(context).width * 1/2,
                       height: 170,
                       decoration:  BoxDecoration(
-                        color: FlutterFlowTheme.of(context).success,
+                        color: FlutterFlowTheme.of(context).accent2,
                         boxShadow: const [
                           BoxShadow(
                             blurRadius: 3,
