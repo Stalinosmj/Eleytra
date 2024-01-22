@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'EV Charging Station',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: SplashScreen(),
     );

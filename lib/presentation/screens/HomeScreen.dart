@@ -3,6 +3,7 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:lottie/lottie.dart';
 
 
 
@@ -49,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: FlutterFlowTheme.of(context).lineColor,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -262,6 +264,77 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: MediaQuery.sizeOf(context).width * 1/2,
+                      height: 170,
+                      decoration:  BoxDecoration(
+                        color: FlutterFlowTheme.of(context).success,
+                        boxShadow: const [
+                          BoxShadow(
+                            blurRadius: 3,
+                            color: Color(0x39000000),
+                            offset: Offset(0, 1),
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+                          FFButtonWidget(
+                            onPressed: () {
+                              print('Button Pressed....');
+                            },
+                            text: 'Find Charger',
+                            options: FFButtonOptions(
+                              height: 40,
+                              padding:
+                                const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                              iconPadding:
+                                const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                              color: FlutterFlowTheme.of(context).primary,
+                              textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                fontFamily: 'Outfit',
+                                color: Colors.white,
+                              ),
+                              elevation: 3,
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                              hoverColor: const Color(0xFF7C8126),
+                            ),
+                          ),
+                          Lottie.network(
+                            'https://lottie.host/2b30b098-96db-40c3-b70b-6953e080623c/hZrTEQtjay.json',
+                            width: 150,
+                            height: 25,
+                            fit: BoxFit.cover,
+                            animate: true,
+                          ),
+                          const Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB((0), 16, 0, 0),
+                            child: Text(
+                            '',
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )
             ],
           ),
         )
