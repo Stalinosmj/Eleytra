@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:lottie/lottie.dart';
+import 'package:eleytra/presentation/screens/NavPage.dart';
 
 
 
@@ -292,6 +293,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           FFButtonWidget(
                             onPressed: () {
                               print('Button Pressed....');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const NavPage()),
+                              );
                             },
                             text: 'Find Charger',
                             options: FFButtonOptions(

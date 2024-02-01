@@ -4,32 +4,20 @@ import 'package:flutterflow_ui/flutterflow_ui.dart';
 
 
 class NavPage extends StatefulWidget {
-  const NavPage({super.key});
+  const NavPage({Key? key}) : super(key: key);
 
   @override
-  State<NavPage> createState() => _NavPage();
+  _MyNavPage createState() => _MyNavPage();
 }
 
-class _NavPage extends State<NavPage> {
-
+class _MyNavPage extends State<NavPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Builder(builder: (context){
-                  final
-                }),
-              )
-            ],
-          )
-        ]
-      ),
-    )
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/login_bg.png'), fit: BoxFit.cover)
+        ),
+      );
   }
 }
