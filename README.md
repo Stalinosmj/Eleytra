@@ -26,16 +26,17 @@ The app includes features such as login using Firebase, vehicle information, cha
    flutter run
 
 ## Screenshots
+<img src='https://i.postimg.cc/8sFTGrmp/logoss.png'/>
+<p>App Logo</p>
 
-[url=https://postimg.cc/r0sMKd69][img]https://i.postimg.cc/r0sMKd69/home-page-ss.png[/img][/url]
+<img src='https://i.postimg.cc/vgKM9Qbw/sign-in-ss.png'/>
+<p>Sign-In Page</p>
 
-[url=https://postimg.cc/8sFTGrmp][img]https://i.postimg.cc/8sFTGrmp/logoss.png[/img][/url]
+<img src='https://i.postimg.cc/QKWDJRd9/sign-up-sss.png'/>
+<p>Sign-Up Page</p>
 
-[url=https://postimg.cc/vgKM9Qbw][img]https://i.postimg.cc/vgKM9Qbw/sign-in-ss.png[/img][/url]
-
-[url=https://postimg.cc/QKWDJRd9][img]https://i.postimg.cc/QKWDJRd9/sign-up-sss.png[/img][/url]
-
-
+<img src='https://i.postimg.cc/r0sMKd69/home-page-ss.png'/>
+<p>Home Page</p>
 
 
 
