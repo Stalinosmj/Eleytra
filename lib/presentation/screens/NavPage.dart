@@ -14,24 +14,27 @@ class NavPage extends StatefulWidget {
 class _MyNavPage extends State<NavPage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Text(
-          'Loading...',
-          style: FlutterFlowTheme.of(context)
-          .bodyLarge
-          .override(
-          fontFamily: 'Outfit',
-          color: FlutterFlowTheme.of(context)
-              .alternate,
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Text(
+            'Loading...',
+            style: FlutterFlowTheme.of(context)
+            .bodyLarge
+            .override(
+            fontFamily: 'Outfit',
+            color: FlutterFlowTheme.of(context)
+                .alternate,
+            ),
           ),
-        ),
-        Lottie.network(
-          'https://lottie.host/4c6105e6-f01f-493c-a859-83db18c457af/UrC9pKBVXX.json',
-          fit: BoxFit.fill,
-        )
-      ],
+          Lottie.network(
+            'https://lottie.host/acdb42dc-9774-41fd-bc69-d79cea3ba395/D63X5RQ0mV.json',
+            fit: BoxFit.fitHeight,
+          )
+        ],
+      ),
     );
   }
 }
