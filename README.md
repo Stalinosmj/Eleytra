@@ -1,4 +1,4 @@
-# eleytra
+# Eleytra
 
 The app includes features such as login using Firebase, vehicle information, charging station on map, and slot booking.
 
