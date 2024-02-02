@@ -1,16 +1,41 @@
 # eleytra
 
-A new Flutter project.
+The app includes features such as login using Firebase, vehicle information, charging station on map, and slot booking.
+
+## Features
+
+- Login using Firebase
+- Vehicle information
+- Charging station on map
+- Slot booking
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. Clone the repository:
 
-A few resources to get you started if this is your first Flutter project:
+   ```sh
+   https://github.com/Stalinosmj/Eleytra.git
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. Install dependencies:
+    ```sh
+   cd eleytra
+   flutter pub get
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3. Run the app:
+    ```sh
+   flutter run
+
+## Screenshots
+
+[url=https://postimg.cc/r0sMKd69][img]https://i.postimg.cc/r0sMKd69/home-page-ss.png[/img][/url]
+
+[url=https://postimg.cc/8sFTGrmp][img]https://i.postimg.cc/8sFTGrmp/logoss.png[/img][/url]
+
+[url=https://postimg.cc/vgKM9Qbw][img]https://i.postimg.cc/vgKM9Qbw/sign-in-ss.png[/img][/url]
+
+[url=https://postimg.cc/QKWDJRd9][img]https://i.postimg.cc/QKWDJRd9/sign-up-sss.png[/img][/url]
+
+
+
+
+
