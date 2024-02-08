@@ -11,11 +11,11 @@ class NavPage extends StatefulWidget {
 class _NavPageState extends State<NavPage> {
 
   // in the below line, we are initializing our controller for google maps.
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
   // in the below line, we are specifying our camera position
-  static final CameraPosition _kGoogle = const CameraPosition(
-    target: LatLng(37.42796133580664, -122.885749655962),
+  static const CameraPosition _kGoogle = CameraPosition(
+    target: LatLng(10.030418, 76.335059),
     zoom: 14.4746,
   );
 
@@ -29,22 +29,19 @@ class _NavPageState extends State<NavPage> {
           // setting title for app bar.
           title: const Text("Charging Stations"),
         ),
-        body: Container(
-          // in the below line, creating google maps.
-          child: GoogleMap(
-            // in the below line, setting camera position
-            initialCameraPosition: _kGoogle,
-            // in the below line, specifying map type.
-            mapType: MapType.normal,
-            // in the below line, setting user location enabled.
-            myLocationEnabled: true,
-            // in the below line, setting compass enabled.
-            compassEnabled: true,
-            // in the below line, specifying controller on map complete.
-            onMapCreated: (GoogleMapController controller){
-              _controller.complete(controller);
-            },
-          ),
+        body: GoogleMap(
+          // in the below line, setting camera position
+          initialCameraPosition: _kGoogle,
+          // in the below line, specifying map type.
+          mapType: MapType.normal,
+          // in the below line, setting user location enabled.
+          myLocationEnabled: true,
+          // in the below line, setting compass enabled.
+          compassEnabled: true,
+          // in the below line, specifying controller on map complete.
+          onMapCreated: (GoogleMapController controller){
+            _controller.complete(controller);
+          },
         )
     );
   }
