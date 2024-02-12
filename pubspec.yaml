@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.0.4
   lottie: ^3.0.0
   google_maps_flutter: ^2.1.8
+  google_maps_webservice: ^0.0.19+1
 
 dev_dependencies:
   flutter_test:

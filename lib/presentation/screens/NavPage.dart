@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
+
 
 class NavPage extends StatefulWidget {
   const NavPage({Key? key}) : super(key: key);
@@ -19,6 +21,24 @@ class _NavPageState extends State<NavPage> {
     zoom: 14.4746,
   );
 
+  final _places = GoogleMapsPlaces(apiKey: 'AIzaSyCZCCDltKMqDbo0YrO0sT-IVGSDqWbo0OY');
+
+  Future<List<PlacesSearchResult>> searchPlaces(String query, LatLng location) async {
+    final result = await _places.searchNearbyWithRadius(
+      Location(lat: location.latitude, lng: location.longitude),
+      5000,
+      type: "restaurant",
+      keyword: query,
+    );
+    if (result.status == "OK") {
+      return result.results;
+    } else {
+      throw Exception(result.errorMessage);
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,20 +49,21 @@ class _NavPageState extends State<NavPage> {
           // setting title for app bar.
           title: const Text("Charging Stations"),
         ),
-        body: GoogleMap(
-          // in the below line, setting camera position
-          initialCameraPosition: _kGoogle,
-          // in the below line, specifying map type.
-          mapType: MapType.normal,
-          // in the below line, setting user location enabled.
-          myLocationEnabled: true,
-          // in the below line, setting compass enabled.
-          compassEnabled: true,
-          // in the below line, specifying controller on map complete.
-          onMapCreated: (GoogleMapController controller){
-            _controller.complete(controller);
+        body: ListView.builder(
+          itemCount: result.length,
+          itemBuilder: (context, index) {
+            final place = result[index];
+            return ListTile(
+              title: Text(place.name),
+              subtitle: Text(place.vicinity),
+              trailing: IconButton(
+                icon: const Icon(Icons.arrow_forward),
+                onPressed: () => openDetailsScreen(context, place),
+              ),
+            );
           },
-        )
+        );
+
 
     );
   }
