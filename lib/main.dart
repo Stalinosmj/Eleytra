@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:eleytra/presentation/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:lottie/lottie.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,10 +62,10 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Lottie.network(
-            'https://lottie.host/embed/c3193c68-5b74-4885-8198-eb2597de9e49/ruy0PJhFhr.json',
-            height: 100,
-            width: 100,
+          Image.asset(
+            "assets/icons/splash_ic.png",
+            width: MediaQuery.of(context).size.width / 2,
+            height: MediaQuery.of(context).size.height,
           ),
         ],
       ),
