@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:eleytra/presentation/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(const MyApp());
 }
 
@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     timer = Timer(
         const Duration(seconds: 3),
-            () => Navigator.pushReplacement(
+        () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => const MyLogin(),
@@ -63,10 +63,10 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(
-            "assets/icons/splash_ic.png",
-            width: MediaQuery.of(context).size.width / 2,
-            height: MediaQuery.of(context).size.height,
+          Lottie.network(
+            'https://lottie.host/embed/c3193c68-5b74-4885-8198-eb2597de9e49/ruy0PJhFhr.json',
+            height: 100,
+            width: 100,
           ),
         ],
       ),
