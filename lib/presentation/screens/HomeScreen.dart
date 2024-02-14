@@ -295,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               print('Button Pressed....');
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const NavPage()),
+                                MaterialPageRoute(builder: (context) =>  NavPage()),
                               );
                             },
                             text: 'Find Charger',
