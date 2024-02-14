@@ -37,11 +37,12 @@ class _NavMapState extends State<NavPage> {
       Marker(
           markerId: const MarkerId("marker_1"),
           position: _kMapCenter,
-          infoWindow: const InfoWindow(title: 'Marker 1'),
-          rotation: 90),
+          infoWindow: const InfoWindow(title: 'Bharata Mata College'),
+          rotation: 0),
       const Marker(
         markerId: MarkerId("marker_2"),
-        position: LatLng(18.997962200185533, 72.8379758747611),
+        position: LatLng(10.077260,76.315545),
+        infoWindow: InfoWindow(title: 'Vazhathottam'),
       ),
     };
   }
@@ -107,7 +108,7 @@ class _NavMapState extends State<NavPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Google Maps Demo'),
+          title: const Text('Find Charging Stations'),
         ),
         body: Builder(builder: (BuildContext context) {
           return GoogleMap(
@@ -132,7 +133,7 @@ class _NavMapState extends State<NavPage> {
             //circles: _createCircle(),
             //polygons: _createPolygon(),
             //polylines: _createPolyline(),
-            trafficEnabled: false,
+            trafficEnabled: true,
             onCameraMove: onCameraMove,
           );
         }));
