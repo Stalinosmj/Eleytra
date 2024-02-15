@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'package:eleytra/presentation/screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 
 class NavPage extends StatefulWidget {
   const NavPage({super.key});
@@ -11,6 +13,7 @@ class NavPage extends StatefulWidget {
 }
 
 class _NavMapState extends State<NavPage> {
+  final Set<Marker> _markers = {};
   late GoogleMapController _controller;
   LatLng _currentLocation = const LatLng(10.077260, 76.315545);
 //Default Location - "Vazhathottam"
@@ -28,25 +31,46 @@ class _NavMapState extends State<NavPage> {
     });
   }
 
-  void _goToMyLocation() {
+  void goToMyLocation() {
     _controller.animateCamera(
       CameraUpdate.newLatLng(_currentLocation),
     );
   }
 
+  void fetchChargingStations() async {
+    const apiKey =
+        'AIzaSyCZCCDltKMqDbo0YrO0sT-IVGSDqWbo0OY'; // Replace with your actual API key
+    final location = _currentLocation; // User's current location
+    final response = await http.get(Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$location&radius=10000&type=charging_station&key=$apiKey'));
+    print(response);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final results = data['results'] as List<dynamic>;
+      print("this is the results $results");
+      print(_currentLocation);
+
+      for (var result in results) {
+        final name = result['name'];
+        final lat = result['geometry']['location']['lat'];
+        final lng = result['geometry']['location']['lng'];
+        _markers.add(
+          Marker(
+            markerId: MarkerId(name),
+            position: LatLng(lat, lng),
+            infoWindow: InfoWindow(title: name),
+          ),
+        );
+      }
+      setState(() {}); // Update the map with markers
+    } else {
+      print('Error fetching charging stations: ${response.statusCode}');
+    }
+  }
+
   void onCameraMove(CameraPosition cameraPosition) {
     debugPrint('$cameraPosition');
   }
-
-  // Set<Marker> _createMarker() {
-  //   return {
-  //     const Marker(
-  //       markerId: MarkerId("Current Location"),
-  //       position: LatLng(10.077260, 76.315545),
-  //       infoWindow: InfoWindow(title: 'Start'),
-  //     ),
-  //   };
-  // }
 
   Set<Circle> _createCircle() {
     return {
@@ -57,7 +81,7 @@ class _NavMapState extends State<NavPage> {
         fillColor: Colors.blue.withOpacity(0.2),
         strokeWidth: 2,
         center: _currentLocation,
-        radius: 5000,
+        radius: 10000,
       ),
     };
   }
@@ -78,7 +102,7 @@ class _NavMapState extends State<NavPage> {
           myLocationEnabled: true,
           myLocationButtonEnabled: false,
           compassEnabled: true,
-          // markers: _createMarker(),
+          markers: _markers,
           mapToolbarEnabled: false,
           buildingsEnabled: true,
           rotateGesturesEnabled: true,
@@ -90,6 +114,7 @@ class _NavMapState extends State<NavPage> {
           circles: _createCircle(),
           trafficEnabled: true,
           onCameraMove: onCameraMove,
+
         ),
         Positioned(
           top: 50,
@@ -156,13 +181,30 @@ class _NavMapState extends State<NavPage> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.my_location_sharp),
-                    onPressed: _goToMyLocation,
+                    onPressed: goToMyLocation,
                   ),
                 ],
               ),
             ),
           ),
-        )
+        ),
+        Positioned(
+          bottom: 50,
+          left: 15,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white70,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: IconButton(
+              icon: const Icon(
+                Icons.charging_station_rounded,
+                color: Colors.black,
+              ),
+              onPressed: fetchChargingStations,
+            ),
+          ),
+        ),
       ]);
     }));
   }
