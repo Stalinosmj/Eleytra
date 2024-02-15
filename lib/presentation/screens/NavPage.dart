@@ -35,18 +35,18 @@ class _NavMapState extends State<NavPage> {
   }
 
   void onCameraMove(CameraPosition cameraPosition) {
-    debugPrint('${cameraPosition}');
+    debugPrint('$cameraPosition');
   }
 
-  Set<Marker> _createMarker() {
-    return {
-      const Marker(
-        markerId: MarkerId("marker_2"),
-        position: LatLng(10.077260, 76.315545),
-        infoWindow: InfoWindow(title: 'Vazhathottam'),
-      ),
-    };
-  }
+  // Set<Marker> _createMarker() {
+  //   return {
+  //     const Marker(
+  //       markerId: MarkerId("Current Location"),
+  //       position: LatLng(10.077260, 76.315545),
+  //       infoWindow: InfoWindow(title: 'Start'),
+  //     ),
+  //   };
+  // }
 
   Set<Circle> _createCircle() {
     return {
@@ -78,13 +78,9 @@ class _NavMapState extends State<NavPage> {
           myLocationEnabled: true,
           myLocationButtonEnabled: false,
           compassEnabled: true,
-          markers: _createMarker(),
+          // markers: _createMarker(),
           mapToolbarEnabled: false,
           buildingsEnabled: true,
-          onTap: (latLong) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Can't display Info")));
-          },
           rotateGesturesEnabled: true,
           scrollGesturesEnabled: true,
           zoomControlsEnabled: false,
