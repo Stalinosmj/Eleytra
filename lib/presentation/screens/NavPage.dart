@@ -1,5 +1,7 @@
+import 'package:eleytra/presentation/screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
 class NavPage extends StatefulWidget {
   @override
@@ -7,27 +9,21 @@ class NavPage extends StatefulWidget {
 }
 
 class _NavMapState extends State<NavPage> {
-  static final LatLng _kMapCenter =
-  const LatLng(10.030858, 76.335213);
-
-  static final LatLng _kMapCenterAK =
-  const LatLng(10.134737, 76.210596);
-
-  static final CameraPosition _kInitialPosition =
-  CameraPosition(target: _kMapCenter, zoom: 11.0, tilt: 0, bearing: 0);
-
-  static final CameraPosition _kInitialPositionAK =
-  CameraPosition(target: _kMapCenterAK, zoom: 18.0, tilt: 70, bearing: 0);
-
   late GoogleMapController _controller;
+  LatLng _currentLocation = const LatLng(10.077260, 76.315545);
+//Default Location - "Vazhathottam"
 
-  Future<void> onMapCreated(GoogleMapController controller) async {
-    _controller = controller;
-    String value = await DefaultAssetBundle.of(context)
-        .loadString('assets/map_style.json');
-    _controller.setMapStyle(value);
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
   }
-
+  Future<void> _getCurrentLocation() async {
+    final position = await Geolocator.getCurrentPosition();
+    setState(() {
+      _currentLocation = LatLng(position.latitude, position.longitude);
+    });
+  }
   void onCameraMove(CameraPosition cameraPosition) {
     debugPrint('${cameraPosition}');
   }
@@ -36,12 +32,12 @@ class _NavMapState extends State<NavPage> {
     return {
       Marker(
           markerId: const MarkerId("marker_1"),
-          position: _kMapCenter,
+          position: _currentLocation,
           infoWindow: const InfoWindow(title: 'Bharata Mata College'),
           rotation: 0),
       const Marker(
         markerId: MarkerId("marker_2"),
-        position: LatLng(10.077260,76.315545),
+        position: LatLng(10.077260, 76.315545),
         infoWindow: InfoWindow(title: 'Vazhathottam'),
       ),
     };
@@ -55,87 +51,70 @@ class _NavMapState extends State<NavPage> {
         strokeColor: Colors.teal,
         fillColor: Colors.blue.withOpacity(0.2),
         strokeWidth: 2,
-        center: _kMapCenter,
+        center: _currentLocation,
         radius: 5000,
       ),
-      Circle(
-        circleId: const CircleId('2'),
-        consumeTapEvents: true,
-        strokeColor: Colors.teal,
-        fillColor: Colors.blue.withOpacity(0.2),
-        strokeWidth: 2,
-        center: const LatLng(18.997962200185533, 72.8379758747611),
-        radius: 6000,
-      ),
     };
-  }
-
-  Set<Polygon> _createPolygon() {
-    return {
-      Polygon(
-          polygonId: const PolygonId('2'),
-          consumeTapEvents: true,
-          strokeColor: Colors.black,
-          strokeWidth: 2,
-          fillColor: Colors.teal,
-          points: _createPoints())
-    };
-  }
-
-  Set<Polyline> _createPolyline() {
-    return {
-      Polyline(
-        polylineId: const PolylineId('1'),
-        consumeTapEvents: true,
-        color: Colors.black,
-        width: 5,
-        points: _createPoints(),
-      ),
-    };
-  }
-
-  List<LatLng> _createPoints() {
-    final List<LatLng> points = <LatLng>[];
-    points.add(const LatLng(19.03434603366356, 72.8464128479929));
-    points.add(const LatLng(19.039546951601157, 72.86191217766304));
-    points.add(const LatLng(18.9648299877223, 72.84281511964726));
-    //points.add(LatLng(19.03434603366356, 72.8464128479929));
-    points.add(const LatLng(18.93089678860969, 72.82178660269335));
-    return points;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Find Charging Stations'),
+    return Scaffold(body: Builder(builder: (BuildContext context) {
+      return Stack(children: <Widget>[
+
+        GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: _currentLocation,
+            zoom: 14.0,
+          ),
+          onMapCreated: (controller){
+            _controller = controller;
+          },
+          mapType: MapType.normal,
+          myLocationEnabled: true,
+          myLocationButtonEnabled: true,
+          compassEnabled: true,
+          markers: _createMarker(),
+          mapToolbarEnabled: false,
+          buildingsEnabled: true,
+          onTap: (latLong) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text("Can't display Info")));
+          },
+          rotateGesturesEnabled: true,
+          scrollGesturesEnabled: true,
+          zoomControlsEnabled: true,
+          zoomGesturesEnabled: true,
+          tiltGesturesEnabled: true,
+          liteModeEnabled: false,
+          circles: _createCircle(),
+          //polygons: _createPolygon(),
+          //polylines: _createPolyline(),
+          trafficEnabled: true,
+          onCameraMove: onCameraMove,
         ),
-        body: Builder(builder: (BuildContext context) {
-          return GoogleMap(
-            initialCameraPosition: _kInitialPosition,
-            onMapCreated: onMapCreated,
-            mapType: MapType.normal,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            compassEnabled: true,
-            markers: _createMarker(),
-            mapToolbarEnabled: false,
-            buildingsEnabled: true,
-            onTap: (latLong) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login failed")));
-            },
-            rotateGesturesEnabled: true,
-            scrollGesturesEnabled: true,
-            zoomControlsEnabled: true,
-            zoomGesturesEnabled: true,
-            tiltGesturesEnabled: true,
-            liteModeEnabled: false,
-            //circles: _createCircle(),
-            //polygons: _createPolygon(),
-            //polylines: _createPolyline(),
-            trafficEnabled: true,
-            onCameraMove: onCameraMove,
-          );
-        }));
+        Positioned(
+          top:50,left: 15,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white70,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  const HomeScreen()),
+                );
+              },
+            ),
+          ),
+        ),
+      ]);
+    }));
   }
 }
