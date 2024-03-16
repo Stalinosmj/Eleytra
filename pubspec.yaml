@@ -44,6 +44,9 @@ dependencies:
   lottie: ^3.0.0
   google_maps_flutter: ^2.1.8
   google_maps_webservice: ^0.0.19+1
+  flutter_map: ^4.0.0
+  latlong2: ^0.8.2
+  open_route_service: ^1.2.2
 
 dev_dependencies:
   flutter_test:
