@@ -4,34 +4,52 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:open_route_service/open_route_service.dart';
+import 'package:geolocator/geolocator.dart';
 
-import 'package:eleytra/database/charging_stations.dart';
+
+import 'package:eleytra/presentation/screens/Nav_Points.dart';
 
 class NavPage extends StatefulWidget {
-  const NavPage({super.key});
+  final LatLng chargePoint;
+
+  const NavPage({Key? key, required this.chargePoint}) : super(key: key);
 
   @override
-  State<NavPage> createState() => _NavPageState();
+  State<NavPage> createState() => _NavPageState(chargePoint);
 }
 
 class _NavPageState extends State<NavPage> {
   late LatLng myPoint;
   bool isLoading = false;
+  LatLng _currentLocation = LatLng(10.030193, 76.334996);
+  late LatLng _chargingpoint;
+
+  _NavPageState(this._chargingpoint);
+
+
 
   @override
   void initState() {
     myPoint = defaultPoint;
+    _chargingpoint = widget.chargePoint;
     super.initState();
+    _getCurrentLocation();
   }
-
   final defaultPoint = LatLng(10.030418, 76.335059);
 
   List listOfPoints = [];
   List<LatLng> points = [];
   List<Marker> markers = [];
 
+  Future<void> _getCurrentLocation() async {
+    final position = await Geolocator.getCurrentPosition();
+    setState(() {
+      _currentLocation = LatLng(position.latitude, position.longitude);
+    });
+  }
 
-  Future<void> getCoordinates(LatLng lat1, LatLng lat2) async {
+
+  Future<void> getCoordinates(lat1) async {
     setState(() {
       isLoading = true;
     });
@@ -43,9 +61,9 @@ class _NavPageState extends State<NavPage> {
     final List<ORSCoordinate> routeCoordinates =
         await client.directionsRouteCoordsGet(
       startCoordinate:
-          ORSCoordinate(latitude: lat1.latitude, longitude: lat1.longitude),
+          ORSCoordinate(latitude: _currentLocation.latitude, longitude: _currentLocation.longitude),
       endCoordinate:
-          ORSCoordinate(latitude: lat2.latitude, longitude: lat2.longitude),
+          ORSCoordinate(latitude: _chargingpoint.latitude, longitude: _chargingpoint.longitude),
     );
 
     final List<LatLng> routePoints = routeCoordinates
@@ -65,7 +83,7 @@ class _NavPageState extends State<NavPage> {
       if (markers.length < 2) {
         markers.add(
           Marker(
-            point: latLng,
+            point: _chargingpoint,
             width: 80,
             height: 80,
             builder: (context) => Draggable(
@@ -83,7 +101,7 @@ class _NavPageState extends State<NavPage> {
               },
               child: IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.location_on),
+                icon: const Icon(Icons.location_on_outlined),
                 color: Colors.black,
                 iconSize: 45,
               ),
@@ -97,7 +115,7 @@ class _NavPageState extends State<NavPage> {
         mapController.move(latLng, zoomLevel);
       }
 
-      if (markers.length == 2) {
+      if (markers.length < 2) {
         // Adicionar um pequeno atraso antes de exibir o efeito de processo
         Future.delayed(const Duration(milliseconds: 500), () {
           setState(() {
@@ -105,7 +123,7 @@ class _NavPageState extends State<NavPage> {
           });
         });
 
-        getCoordinates(markers[0].point, markers[1].point);
+        getCoordinates(_chargingpoint);
 
         // Calcular a extensão (bounding box) que envolve os dois pontos marcados
         LatLngBounds bounds = LatLngBounds.fromPoints(
@@ -125,7 +143,7 @@ class _NavPageState extends State<NavPage> {
             mapController: mapController,
             options: MapOptions(
               zoom: 16,
-              center: myPoint,
+              center: _currentLocation,
               onTap: (tapPosition, latLng) => _handleTap(latLng),
             ),
             children: [

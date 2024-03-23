@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:eleytra/presentation/screens/NavPage.dart';
 import 'package:eleytra/presentation/screens/UserInfoPage.dart';
 import 'package:eleytra/presentation/screens/VehicleInfo.dart';
+import 'package:eleytra/presentation/screens/Nav_Points.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         children: [
           HomePage(),
-          const NavPage(),
+          Nav_Points(),
           const VehicleInfo(),
           const UserInfoPage(),
         ],
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.navigation),
+            icon: Icon(Icons.assistant_navigation),
             label: 'Navigation',
           ),
           BottomNavigationBarItem(
