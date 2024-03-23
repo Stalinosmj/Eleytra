@@ -9,6 +9,33 @@ class BookingPage extends StatefulWidget {
 class _BookingPageState extends State<BookingPage> {
   TimeOfDay selectedTime = TimeOfDay.now();
   String selectedVehicle = 'Tesla Model X'; // Default or selected vehicle
+  List<String> vehicles = ['Tesla Model S', 'Nissan Leaf', 'Chevy Bolt', 'BMW i3'];
+
+  void _changeVehicle() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          child: CupertinoPicker(
+            itemExtent: 32.0,
+            onSelectedItemChanged: (int index) {
+              setState(() {
+                selectedVehicle = vehicles[index];
+              });
+            },
+            children: List<Widget>.generate(vehicles.length, (int index) {
+              return Center(
+                child: Text(vehicles[index]),
+              );
+            }),
+          ),
+        );
+      },
+    );
+  }
+
+
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -28,16 +55,21 @@ class _BookingPageState extends State<BookingPage> {
       appBar: AppBar(
         title: const Text('Book Your Charging Slot'),
       ),
-      body: Center(
+      body: Container(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            const SizedBox(height: 60),
             Card(
               margin: const EdgeInsets.all(8.0),
               child: ListTile(
                 leading: const Icon(Icons.directions_car),
                 title: const Text('Vehicle Information'),
                 subtitle: Text(selectedVehicle),
+                trailing: IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: _changeVehicle,
+                ),
               ),
             ),
             const SizedBox(height: 70),
