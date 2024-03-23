@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:eleytra/presentation/screens/BookingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:open_route_service/open_route_service.dart';
 import 'package:geolocator/geolocator.dart';
-
-
-import 'package:eleytra/presentation/screens/Nav_Points.dart';
 
 class NavPage extends StatefulWidget {
   final LatLng chargePoint;
@@ -188,12 +186,13 @@ class _NavPageState extends State<NavPage> {
                 onPressed: () {
                   if (markers.isEmpty) {
                     // Se os marcadores estiverem vazios
-                    print('Mark route on the map');
+                    print("Error no markers");
                   } else {
-                    setState(() {
-                      markers = [];
-                      points = [];
-                    });
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                BookingPage()));
                   }
                 },
                 child: Container(
@@ -202,10 +201,10 @@ class _NavPageState extends State<NavPage> {
                   decoration: BoxDecoration(
                       color: Colors.black,
                       borderRadius: BorderRadius.circular(10)),
-                  child: Center(
+                  child: const Center(
                     child: Text(
-                      markers.isEmpty ? "Mark route on the map" : "Clear Route",
-                      style: const TextStyle(color: Colors.white, fontSize: 18),
+                      "Book Charging Point",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
                 ),
