@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:eleytra/presentation/screens/UserInfoPage.dart';
-import 'package:eleytra/presentation/screens/VehicleInfo.dart';
 import 'package:eleytra/presentation/screens/Nav_Points.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -32,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           HomePage(),
           Nav_Points(),
-          const VehicleInfo(),
           const UserInfoPage(),
         ],
       ),
@@ -50,10 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.assistant_navigation),
             label: 'Navigation',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.electric_car_outlined),
-            label: 'Vehicle Info',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

@@ -1,5 +1,6 @@
 import 'package:eleytra/presentation/screens/HomeScreen.dart';
 import 'package:eleytra/presentation/screens/RegisterScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyLogin extends StatefulWidget {
@@ -10,6 +11,54 @@ class MyLogin extends StatefulWidget {
 }
 
 class _MyLoginState extends State<MyLogin> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> signIn() async {
+    try {
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      Navigator.pushReplacement(
+        // This will replace the current route
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+
+      // On successful sign-in, navigate to the next page or show a success message
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      if (e.code == 'user-not-found') {
+        errorMessage = 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Wrong password provided for that user.';
+      } else {
+        errorMessage = 'An error occurred. Please try again later.';
+        // Handle errors, such as wrong password or user not found
+      }
+      // Show the alert dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Sign In Error'),
+            content: Text(errorMessage),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Dismiss the dialog
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,6 +89,7 @@ class _MyLoginState extends State<MyLogin> {
                       child: Column(
                         children: [
                           TextField(
+                            controller: _emailController,
                             style: const TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                                 fillColor: Colors.grey.shade100,
@@ -53,6 +103,7 @@ class _MyLoginState extends State<MyLogin> {
                             height: 30,
                           ),
                           TextField(
+                            controller: _passwordController,
                             style: const TextStyle(),
                             obscureText: true,
                             decoration: InputDecoration(
@@ -80,11 +131,7 @@ class _MyLoginState extends State<MyLogin> {
                                 child: IconButton(
                                     color: Colors.white,
                                     onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeScreen()));
+                                      signIn();
                                     },
                                     icon: const Icon(
                                       Icons.arrow_forward,
@@ -118,7 +165,15 @@ class _MyLoginState extends State<MyLogin> {
                                 ),
                               ),
                               TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    FirebaseAuth.instance
+                                        .sendPasswordResetEmail(
+                                            email: _emailController.text)
+                                        .then((value) =>
+                                            print("Check your email"))
+                                        .catchError((error) => print(
+                                            "Failed to send reset email: $error"));
+                                  },
                                   child: const Text(
                                     'Forgot Password',
                                     style: TextStyle(
@@ -140,5 +195,12 @@ class _MyLoginState extends State<MyLogin> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

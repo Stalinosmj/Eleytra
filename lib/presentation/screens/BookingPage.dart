@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +10,32 @@ class BookingPage extends StatefulWidget {
 
 class _BookingPageState extends State<BookingPage> {
   TimeOfDay selectedTime = TimeOfDay.now();
-  String selectedVehicle = 'Tesla Model X'; // Default or selected vehicle
-  List<String> vehicles = ['Tesla Model S', 'Nissan Leaf', 'Chevy Bolt', 'BMW i3'];
+  String selectedVehicle = 'Tesla Model X'; // This will be updated with Firestore data
+  List<String> vehicles = []; // Initialize an empty list for vehicles
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchVehicles();
+  }
+
+  Future<void> _fetchVehicles() async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null) {
+      var querySnapshot = await FirebaseFirestore.instance
+          .collection('vehicles')
+          .where('ownerEmail', isEqualTo: firebaseUser.email)
+          .get();
+      setState(() {
+        vehicles = querySnapshot.docs
+            .map((doc) => doc.data()['name'] as String)
+            .toList();
+        if (vehicles.isNotEmpty) {
+          selectedVehicle = vehicles.first; // Set the default vehicle
+        }
+      });
+    }
+  }
 
   void _changeVehicle() {
     showModalBottomSheet(
@@ -24,17 +50,14 @@ class _BookingPageState extends State<BookingPage> {
                 selectedVehicle = vehicles[index];
               });
             },
-            children: List<Widget>.generate(vehicles.length, (int index) {
-              return Center(
-                child: Text(vehicles[index]),
-              );
-            }),
+            children: vehicles.map((String name) {
+              return Center(child: Text(name));
+            }).toList(),
           ),
         );
       },
     );
   }
-
 
 
   Future<void> _selectTime(BuildContext context) async {
