@@ -37,8 +37,8 @@ class Nav_Points extends StatelessWidget {
 
 
 
-
   LatLng getLatLngByStationId(int stationId) {
+
     switch (stationId) {
       case 1:
         return LatLng(9.9696, 76.3003);
@@ -106,7 +106,7 @@ class Nav_Points extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                             NavPage(chargePoint: charge_point)));
+                             NavPage(chargePoint: charge_point,stationId: station.id,)));
 
               },
             );

@@ -9,11 +9,12 @@ import 'package:geolocator/geolocator.dart';
 
 class NavPage extends StatefulWidget {
   final LatLng chargePoint;
+  final int stationId;
 
-  const NavPage({Key? key, required this.chargePoint}) : super(key: key);
+  const NavPage({Key? key, required this.chargePoint, required this.stationId}) : super(key: key);
 
   @override
-  State<NavPage> createState() => _NavPageState(chargePoint);
+  State<NavPage> createState() => _NavPageState(chargePoint,stationId);
 }
 
 class _NavPageState extends State<NavPage> {
@@ -21,8 +22,9 @@ class _NavPageState extends State<NavPage> {
   bool isLoading = false;
   LatLng _currentLocation = LatLng(10.030193, 76.334996);
   late LatLng _chargingpoint;
+  late int _stationId;
 
-  _NavPageState(this._chargingpoint);
+  _NavPageState(this._chargingpoint, int stationId);
 
 
 
@@ -30,6 +32,7 @@ class _NavPageState extends State<NavPage> {
   void initState() {
     myPoint = defaultPoint;
     _chargingpoint = widget.chargePoint;
+    _stationId = widget.stationId;
     super.initState();
     _getCurrentLocation();
   }
@@ -192,7 +195,7 @@ class _NavPageState extends State<NavPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                BookingPage()));
+                                BookingPage(stationId: _stationId,)));
                   }
                 },
                 child: Container(
@@ -203,7 +206,7 @@ class _NavPageState extends State<NavPage> {
                       borderRadius: BorderRadius.circular(10)),
                   child: const Center(
                     child: Text(
-                      "Book Charging Point",
+                      "Book Slot",
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
